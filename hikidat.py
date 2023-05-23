@@ -57,12 +57,14 @@ def pack(dir, filename, key=base64.b64decode(ContentKey)):
         count = xor_bytes(struct.pack("H" , len(files)), struct.pack("H", 0x8080))
         f.write(count)
         data = bytes()
+        curr_offset = 2 + (0x10A * len(files))
         for i in range(len(files)):
             entry_name = xor_bytes(bytes(files[i].split(os.sep)[-1], 'cp932'), 0x80)
             f.write(fill_bytes(entry_name))
             entry_size = os.path.getsize(files[i])
             f.write(xor_bytes(struct.pack("I" , entry_size), 0x80))
-            entry_offset = struct.pack("I" , 2 + (0x10A * (i+1)))
+            entry_offset = struct.pack("I" , curr_offset)
+            curr_offset += entry_size
             f.write(xor_bytes(entry_offset, 0x80))
             encrypted = min(entry_size, len(key))
             with open(files[i],'rb') as entry:
@@ -71,7 +73,8 @@ def pack(dir, filename, key=base64.b64decode(ContentKey)):
                 entry_data = header
                 if entry_size > len(key):
                     entry_data += file_data[encrypted:]
-                f.write(entry_data)
+                data +=entry_data
+        f.write(data)
     print("packing done!")
 @click.command()
 @click.option('--unpack', '-u' , 'UMODE', help="for unpack mode. default is view mode", is_flag=False, flag_value="click")
