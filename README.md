@@ -1,28 +1,28 @@
 **yanesdkTool**
 
-small command line tool for yanesdk (\*.dat), some .dat files need .lst
-file (contains necessary information for extraction) not supported
+small command line tool for working with yanesdk (\*.dat) files, some .dat files need .lst file (which contains necessary information for extraction) which not currently supported, only view mode is supported
 
-**Usage: python exshikidat.py \[OPTIONS\]**
+**Usage: python exshikidat.py [OPTIONS]**
 
 Options:
 
--f, \--file TEXT input file path \[required\]
+>>_-u, --unpack_ for unpack mode. default is view mode
 
--o, \--outdir TEXT directory name for extracted output
+>>_-p, --pack_ for pack mode
 
--x, \--extract TEXT for extract mode. default is view mode
+>>_-f, --file_ file path to unpack/pack
 
-\--help Show this message and exit.
+>>_-d, --directory_ directory path to unpack/pack
+
+>>_--help_ Show this message and exit.
 
 Requirements:
 
-Python 3.7 or later with modules:
+>Python 3.7 or later with modules:
 
--   bytesfunc
-
--   click
+>>- bytesfunc
+>>- click
 
 Reference:
 
--   https://github.com/morkt/GARbro/blob/master/ArcFormats/YaneSDK/ArcHibiki.cs
+- https://github.com/morkt/GARbro/blob/master/ArcFormats/YaneSDK/ArcHibiki.cs
